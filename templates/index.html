@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>House Price Prediction</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        .container {
+            text-align: center;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        input, select {
+            padding: 10px;
+            width: 80%;
+            margin: 8px 0;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #28a745;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>House Price Prediction</h1>
+        <form action="/predict" method="POST">
+            <input type="text" name="area" placeholder="Enter Area (sq. ft)" required>
+            <input type="text" name="bedrooms" placeholder="Enter Bedrooms" required>
+            <input type="text" name="bathrooms" placeholder="Enter Bathrooms" required>
+            <input type="text" name="stories" placeholder="Enter Stories" required>
+            <select name="model" required>
+                <option value="linear">Linear Regression</option>
+                <option value="tree">Decision Tree</option>
+                <option value="gbm">Gradient Boosting</option>
+                <option value="xgboost">XGBoost</option>
+                <option value="lightgbm">LightGBM</option>
+            </select>
+            <button type="submit">Predict</button>
+        </form>
+        <h2>{{ prediction_text }}</h2>
+    </div>
+</body>
+</html>
