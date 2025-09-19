@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import os
 from flask import Flask, render_template, request
 from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LinearRegression
@@ -8,8 +9,15 @@ from sklearn.ensemble import GradientBoostingRegressor
 import xgboost as xgb
 import lightgbm as lgb
 
+# Initialize Flask app
+app = Flask(__name__)
+
+# Get the absolute path to the CSV file (relative path)
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+data_path = os.path.join(BASE_DIR, "Housing.csv")
+
 # Load the dataset
-data = pd.read_csv("C:/Users/hari9/Downloads/Housing.csv")
+data = pd.read_csv(data_path)
 
 # Prepare features and labels
 X = data[["area", "bedrooms", "bathrooms", "stories"]]
@@ -25,9 +33,7 @@ gradient_boosting_model = GradientBoostingRegressor().fit(X_train, y_train)
 xgboost_model = xgb.XGBRegressor().fit(X_train, y_train)
 lightgbm_model = lgb.LGBMRegressor().fit(X_train, y_train)
 
-# Initialize Flask app
-app = Flask(__name__)
-
+# Routes
 @app.route("/")
 def index():
     return render_template("index.html")
@@ -69,7 +75,6 @@ def predict():
             prediction_text=f"Error occurred: {str(e)}"
         )
 
+# Run the app
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=False)
-
-
+    app.run(host="0.0.0.0", port=int(os.environ.get("PORT", 5000)), debug=False)
